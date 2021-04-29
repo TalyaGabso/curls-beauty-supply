@@ -29,10 +29,11 @@ mongoose.connect(uri, {
   useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true,
-})
-  .then(() => {
-    console.log("Database connect");
-  });
+}).then(() => {
+  console.log("Database connect");
+});
+
+
 app.listen(process.env.PORT || port, () => {
   console.log(`Server started on port ${port}`)
 });

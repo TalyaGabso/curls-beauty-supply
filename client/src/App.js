@@ -1,19 +1,15 @@
 import React from 'react'
-import './App.css';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Route } from 'react-router';
-import User from './components/user.component';
-import { BrowserRouter } from 'react-router-dom';
+// import User from './components/User.component';
+import HomePage from './components/HomePage.component';
 
-function App() {
-
+const App = () => {
   return (
-    <div>
-      <BrowserRouter>
-        <Route exact path='/' component={User} />
-      </BrowserRouter>
-
-    </div>
+    <Router>
+      <Route exact path='/' component={HomePage} />
+    </Router>
   );
-}
+};
 
 export default App;

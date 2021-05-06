@@ -43,13 +43,18 @@ const userSchema = new mongoose.Schema({
    //PERSONAL INFO:
    // phone number
    // address: country, state, zip, city, address ,apt
+   isAdmin: {
+      type: Boolean,
+      required: true,
+      default: false
+   },
    tokens: [{
       token: {
          type: String,
          required: true,
       },
-   }]
-});
+   }],
+}, { timestamps: true });
 // method for hiding private data:
 userSchema.methods.toJSON = function () {
    const user = this;
@@ -98,6 +103,6 @@ userSchema.pre('save', async function (next) {
    next();
 });
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema);
 
-module.exports = User
+module.exports = User;

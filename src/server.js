@@ -1,8 +1,8 @@
 const path = require('path');
 const app = require('./app');
 
-const port = 8000;
+const PORT = process.env.PORT || 8000;
 
-app.listen(process.env.PORT || port, () => {
-  console.log(`Server started on port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`)
 });

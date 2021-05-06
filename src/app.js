@@ -1,12 +1,10 @@
 const express = require('express');
-require('./db/mongoose');
 const cors = require('cors');
-
+require('./config/mongooseDB');
 const bcrypt = require('bcryptjs')
 
-// import Routes
 const usersRoute = require('./routes/user.route');
-// const shopRoute = require('./routes/shop.route');
+const productsRoute = require('./routes/product.route');
 
 const app = express();
 
@@ -14,11 +12,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
 // ROUTES
 app.use("/api/users", usersRoute);
-// app.use("/api/shop", shopRoute);
-
+app.use("/api/products", productsRoute);
 
 // connect to front
 if (process.env.NODE_ENV === 'production') {

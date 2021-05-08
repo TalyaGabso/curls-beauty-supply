@@ -1,11 +1,10 @@
-const userModel = require('../models/user.model');
+const UserModel = require('../models/user.model');
 
 //--GET--//
-
 // all accounts
 const getAll = async (req, res) => {
    try {
-      const users = await userModel.find({})
+      const users = await UserModel.find({})
       return res.send(users);
    } catch (e) {
       return res.status(500)
@@ -17,11 +16,12 @@ const myAccount = async (req, res) => {
    res.send(req.user);
 };
 
+
 //--POST--//
 
 // create new account
 const newAccount = async (req, res) => {
-   const user = new userModel(req.body);
+   const user = new UserModel(req.body);
    try {
       await user.save()
       // create auth tokens
@@ -35,7 +35,7 @@ const newAccount = async (req, res) => {
 // login to account
 const login = async (req, res) => {
    try {
-      const user = await userModel.findByCredentails(req.body.email, req.body.password);
+      const user = await UserModel.findByCredentails(req.body.email, req.body.password);
       const token = await user.generateAuthToken();
       res.send({ user, token });
    } catch (e) {
@@ -57,8 +57,8 @@ const logout = async (req, res) => {
    };
 };
 
-//--PUT--//
 
+//--PUT--//
 // edit user account
 const editAccount = async (req, res) => {
    const updates = Object.keys(req.body);
@@ -77,6 +77,7 @@ const editAccount = async (req, res) => {
       res.status(400).send(e);
    };
 };
+
 
 //--DELETE--//
 const deleteAccount = async (req, res) => {

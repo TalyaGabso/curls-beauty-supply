@@ -1,22 +1,23 @@
 const express = require('express');
 const cors = require('cors');
+const { notFound, errorHandler } = require('./middleware/error.middleware');
 require('./config/mongooseDB');
-const bcrypt = require('bcryptjs')
 
 const usersRoute = require('./routes/user.route');
 const productsRoute = require('./routes/product.route');
 
 const app = express();
 
-// express middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
+
 
 // ROUTES
 app.use("/api/users", usersRoute);
 app.use("/api/products", productsRoute);
 
-// connect to front
+// Front Connection
 if (process.env.NODE_ENV === 'production') {
    // Exprees will serve up production assets
    app.use(express.static('client/build'));
@@ -27,5 +28,8 @@ if (process.env.NODE_ENV === 'production') {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
    });
 };
+
+app.use(notFound)
+app.use(errorHandler)
 
 module.exports = app;

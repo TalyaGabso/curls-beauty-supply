@@ -5,7 +5,7 @@ function HomePage() {
       <>
          <div className="App">
             <header className="App-header">
-               <h1>Welcome to The Curls Beauty Supply Store</h1>
+               <h1>The Curls Beauty Supply Store</h1>
             </header>
          </div>
       </>

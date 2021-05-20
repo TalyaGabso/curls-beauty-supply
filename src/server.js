@@ -1,7 +1,10 @@
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const { notFound, errorHandler } = require('./middleware/error.middleware');
+
+// const dotenv = require('dotenv');
+// dotenv.config();
+// const { notFound, errorHandler } = require('./middleware/error.middleware');
 require('./config/mongooseDB');
 
 const usersRoute = require('./routes/user.route');
@@ -39,3 +42,16 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`)
 });
+
+
+//--Temporery => Static Data--//
+// const products = require('./staticData/product.data');
+// app.get("api/products", (req, res) => {
+//   console.log(products);
+//   res.json(products);
+// });
+// app.get("api/products/:id", (req, res) => {
+//   const product = products.find((product) => product._id === req.paramps.id);
+//   console.log('server product: ', product);
+//   res.json(product);
+// });

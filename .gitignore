@@ -31,5 +31,5 @@ yarn-error.log*
 
 
 # temp
+# client/src/redux
 src/staticData
-src/app.js

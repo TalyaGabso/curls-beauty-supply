@@ -1,3 +1,5 @@
+const { response } = require('express');
+const { isValidObjectId } = require('mongoose');
 const UserModel = require('../models/user.model');
 
 //--GET--//
@@ -13,33 +15,61 @@ const getAll = async (req, res) => {
 
 // a user account
 const myAccount = async (req, res) => {
-   res.send(req.user);
+   const user = await UserModel.findById(req.user._id);
+   console.log('NY ACCOUNT USER', user);
+
+   if (user) {
+      res.send({ user });
+   } else {
+      res.status(404).send('User Not Found');
+   };
 };
 
 
 //--POST--//
 
 // create new account
-const newAccount = async (req, res) => {
-   const user = new UserModel(req.body);
+const register = async (req, res) => {
+   const { firstName, lastName, email, password } = req.body
+   const userExists = await UserModel.findOne({ email });
+   console.log('NEW ACCOUNT - IS USER EXISTS:', userExists);
+
+   if (userExists) {
+      return res.status(400).send('User already exists');
+   };
+   const user = new UserModel({ firstName, lastName, email, password });
+   console.log('New Account USER: ', user);
    try {
-      await user.save()
-      // create auth tokens
-      const token = await user.generateAuthToken()
-      res.status(201).send({ user, token })
-   } catch (e) {
-      res.status(400).send(e);
+      if (user) {
+         await user.save();
+         // create auth tokens
+         const token = await user.generateAuthToken();
+         res.status(201).send({ user, token });
+      };
+   } catch (err) {
+      console.log('ERROR: ', err.message);
+      res.status(400).send(err.message);
    };
 };
 
 // login to account
 const login = async (req, res) => {
+   console.log('=============> LOGIN FUNCTION');
    try {
-      const user = await UserModel.findByCredentails(req.body.email, req.body.password);
+      console.log('req.body.email: ', req.body.email);
+      console.log('req.body.password: ', req.body.password);
+
+      const user = await UserModel.findByCredentials(req.body.email, req.body.password);
+      console.log('login function USER: ', user);
+
       const token = await user.generateAuthToken();
+      console.log('login function TOKEN: ', token);
+
       res.send({ user, token });
-   } catch (e) {
-      res.status(400).send(e);
+   }
+   catch (err) {
+      console.log('login function ERROR: ', err);
+      res.status(400).send(err);
    };
 };
 
@@ -60,24 +90,35 @@ const logout = async (req, res) => {
 
 //--PUT--//
 // edit user account
-const editAccount = async (req, res) => {
-   const updates = Object.keys(req.body);
-   const allowedUpdates = ['firstName', 'lastName', 'email', 'password'];
-   const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+const updateAccount = async (req, res) => {
+   const user = await UserModel.findById(req.user._id);
+   console.log('UPDATE ACCOUNT - USER', user);
 
-   if (!isValidOperation) {
-      return res.status(400).send({ error: 'Invalid Update!' })
-   };
+   if (user) {
+      const updates = Object.keys(req.body);
+      console.log('UPDATE ACCOUNT - UPDATES', updates);
 
-   try {
-      updates.forEach((update) => req.user[update] = req.body[update]);
-      await req.user.save();
-      res.send(req.user);
-   } catch (e) {
-      res.status(400).send(e);
+      const allowedUpdates = ['firstName', 'lastName', 'email', 'password'];
+      const isValidOperation = updates.every(update => allowedUpdates.includes(update));
+      console.log('UPDATE ACCOUNT - IS VALID', isValidOperation);
+
+      if (!isValidOperation) {
+         return res.status(400).send({ error: 'Invalid Update!' })
+      };
+
+      try {
+         updates.forEach((update) => user[update] = req.body[update]);
+         user.save();
+
+         res.status(201).send('Your Account Was Successfuly Updated. ')
+      } catch (err) {
+         console.log('ERROR: ', err.message);
+         res.status(400).send(err.message);
+      };
+   } else {
+      return res.status(404).send('User Not Found');
    };
 };
-
 
 //--DELETE--//
 const deleteAccount = async (req, res) => {
@@ -95,13 +136,13 @@ module.exports = {
    // GET: user account
    myAccount,
    // POST: create a new account
-   newAccount,
+   register,
    // POST: login
    login,
    // POST: logout
    logout,
    // PUT: edit an account profile
-   editAccount,
+   updateAccount,
    // DELETE: delete an account
    deleteAccount,
 };

@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
+
    firstName: {
       type: String,
       required: true,
@@ -55,8 +56,11 @@ const userSchema = new mongoose.Schema({
       },
    }],
 }, { timestamps: true });
+
+
 // method for hiding private data:
 userSchema.methods.toJSON = function () {
+   console.log('FUNCTION: userSchema.methods.toJSON ');
    const user = this;
    const userObject = user.toObject();
 
@@ -66,9 +70,9 @@ userSchema.methods.toJSON = function () {
    return userObject;
 };
 
-
 // create an authentication token with login
 userSchema.methods.generateAuthToken = async function () {
+   console.log('FUNCTION: userSchema.methods.generateAuthToken');
    const user = this;
    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
    user.tokens = user.tokens.concat({ token });
@@ -78,23 +82,27 @@ userSchema.methods.generateAuthToken = async function () {
 };
 
 // login with email and password
-userSchema.static.findByCredentials = async (email, password) => {
+userSchema.statics.findByCredentials = async (email, password) => {
    //find email 
-   const user = await User.findOne({ email });
+   const user = await User.findOne({ email })
+   console.log('Find By Credential - USER: ', user);
+
    if (!user) {
-      throw new Error('Unble to login, please make sure you entered  the correct email and/or password');
+      console.log('Find By Credential - !USER ');
+      throw new Error('Unable to login, please make sure you entered  the correct email and/or password');
    };
 
-   //check if password match 
    const isMatch = await bcrypt.compare(password, user.password)
+
    if (!isMatch) {
-      throw new Error('Unble to login, please make sure you entered  the correct email and/or password');
+      console.log('Find By Credential - !PASSWORD ');
+      throw new Error('Unable to login, please make sure you entered  the correct email and/or password');
    };
 
    return user;
 };
 
-// Hash the password before saving
+// check if password changed and hash the password before saving
 userSchema.pre('save', async function (next) {
    const user = this
    if (user.isModified('password')) {

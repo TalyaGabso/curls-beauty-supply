@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../logo.svg';
 import axios from 'axios';
 
@@ -6,8 +6,8 @@ import axios from 'axios';
 function User() {
   const [user, setUser] = useState(null)
 
-  const getUser = async () =>{
-    const data = await axios.get('api/getUser')
+  const getUser = async () => {
+    const data = await axios.get('api/users')
     setUser(data.data)
   }
 
@@ -18,7 +18,7 @@ function User() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        {user===null? <p>fetching user data</p> : <p>{`Hello ${user.username}`}</p> }
+        {user === null ? <p>fetching user data</p> : <p>{`Hello ${user.username}`}</p>}
         <a
           className="App-link"
           href="https://reactjs.org"

@@ -43,7 +43,7 @@ const getByBrand = async (req, res) => {
 // by product id
 const getById = async (req, res) => {
    try {
-      const product = await Product.findById(req.params.id);
+      const product = await ProductModel.findById(req.params.id);
       return res.send(product);
    } catch (err) {
       res.status(404);
@@ -55,13 +55,13 @@ const getById = async (req, res) => {
 //--POST--//
 // create new product(only admin)
 const createNewProduct = async (req, res) => {
-   console.log('createNewProduct: ', req);
 
-   const product = new ProductModel(req.body);
+   const product = new ProductModel({ ...req.body, owner: req.user._id });
    try {
       const newProduct = await product.save();
       res.status(201).send(`New products was successfully added. ${newProduct}`);
    } catch (err) {
+      console.log(err);
       res.status(400).send(err);
    };
 };

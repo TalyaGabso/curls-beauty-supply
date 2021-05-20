@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const productSchema = new mongoose.Schema({
    // which admin created product
-   createdBy: {
+   owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User'
@@ -68,7 +68,7 @@ const productSchema = new mongoose.Schema({
       trim: true,
       default: 0
    },
-
+   // prooerties:
    //HAIR: best for taxture type
 }, { timestamps: true });
 

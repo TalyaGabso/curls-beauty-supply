@@ -36,13 +36,14 @@ const Login = ({ location, history }) => {
 
    return (
       <Form>
-         <h1>Sing In</h1>
+         <h1>Sign In</h1>
          {error && <AlertMessage>{error}</AlertMessage>}
          {loading && <Loader />}
          <form onSubmit={submitHandler}>
-            <div>
-               <label htmlFor="email"> Email Address </label>
+            <div className="flex">
+               <label className="form-lbl" htmlFor="email"> Email Address </label>
                <input
+                  className="form-input"
                   type="email"
                   id="email"
                   placeholder="Enter Email Address"
@@ -50,9 +51,10 @@ const Login = ({ location, history }) => {
                   onChange={(e) => setEmail(e.target.value)}
                />
             </div>
-            <div>
-               <label htmlFor="password"> Password </label>
+            <div className="flex">
+               <label className="form-lbl" htmlFor="password"> Password </label>
                <input
+                  className="form-input"
                   type="password"
                   id="password"
                   placeholder="Enter Password"
@@ -60,7 +62,7 @@ const Login = ({ location, history }) => {
                   onChange={(e) => setPassword(e.target.value)}
                />
             </div>
-            <button type="submit">Sing In</button>
+            <button className="form-btn" type="submit">Sign In</button>
          </form>
          <div>Don't have an account? <Link to={redirect
             ? `/register?redirect=${redirect}`

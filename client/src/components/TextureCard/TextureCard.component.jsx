@@ -28,7 +28,7 @@ const CardLink = () => {
       <div className="card-container-texture">
          <h3>Shop By Curl Type</h3>
          {curlsType.map((type, index) =>
-            <div key={index} className="texture-card" style={{ display: 'inline-block', margin: '5px', width: '25vw', height: '50vh' }}>
+            <div key={index} className="texture-card" >
                <Link to={`shop/${type.texture}`}>
                   <p>image {type.image}</p>
                   <p><strong>{type.type}</strong></p>

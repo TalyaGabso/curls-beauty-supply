@@ -1,12 +1,15 @@
 .navbar-container {
 	font-size: 10px;
-	max-width: 100vw;
+	/* max-width: 100%; */
+	width: 100%;
 	height: fit-content;
 	display: flex;
 	justify-content: space-between;
-	padding: 5px;
+	padding: 10px;
 	/* temp */
-	border: 2px solid black;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.728);
+	background: orange;
+	color: white;
 }
 
 .left-navbar-logo {
@@ -16,31 +19,31 @@
 }
 
 .left-navbar-list {
-	width: 45vw;
 	margin: 0;
 	display: flex;
-	justify-content: space-evenly;
-	text-decoration: wavy;
 	list-style: none;
-	/* temp */
-	border: 2px solid blue;
+	width: 26%;
+	padding-inline-start: 0;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .right-navbar-list {
-	width: 45vw;
 	margin: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	text-decoration: none;
 	list-style: none;
-	/* temp */
-	border: 2px solid blue;
+	width: 20%;
+	padding-right: 35px;
 }
 .left-navbar-list li a,
 .right-navbar-list li a {
 	text-decoration: none;
-	color: black;
+	color: white;
+	font-weight: bold;
+	font-size: 14px;
 }
 .left-navbar-list li a:hover,
 .right-navbar-list li a:hover {

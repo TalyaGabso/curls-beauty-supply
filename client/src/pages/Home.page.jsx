@@ -13,7 +13,7 @@ const HomePage = () => {
    return (
       <div className='homepage'>
          <h1>The Curls Beauty Supply Store</h1>
-         <Typography variant="h4">a sentence about the curls beauty supply store mission</Typography>
+         <h4>a sentence about the curls beauty supply store mission</h4>
          <TextureCard />
       </div>
    );
